@@ -1,0 +1,18 @@
+setwd('/Users/tbrown/Desktop/StudySession')
+pet_data <- read.csv(file = "/Users/tbrown/Desktop/Python Code/pet_food_customer_orders.csv")
+summary(pet_data)
+describeBy(pet_data, subscription, )
+pet_demo <- pet_data %>% select(c(pet_id, pet_has_active_subscription, neutered, gender,pet_breed_size, pet_allergen_list, pet_fav_flavour_list, pet_health_issue_list))
+summary(pet_demo)
+library(caret)
+intrain <- createDataPartition(pet_demo$pet_has_active_subscription, p =.7, list = FALSE)
+set.seed(2000)
+training <- pet_demo[intrain,]
+testing <- pet_demo[-intrain]
+subs <- as.logical(pet_demo$pet_has_active_subscription)
+summary(subs)
+library(stringr)
+str_pad(pet_demo$pet_id, 20, pad = "0")
+neuter <- as.logical(pet_demo$neutered)
+glm(subs~., family=binomial(link="logit"),data = training)
+write.csv(pet_demo,"/Users/tbrown/Desktop/StudySession\\pet_demo.csv", row.names = TRUE)
